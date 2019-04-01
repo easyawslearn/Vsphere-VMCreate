@@ -1,25 +1,83 @@
+param($Server, $User, $Password, $Name)
 write-host "Connecting to vsphere Server "
 
-$VphereIP = "10.1.1.1"
-$Vuser = "admin"
-$Vpass = "admin"
-
-Connect-VIServer -Server $VphereIP -User $Vuser -Password $Vpass
-
-$vmHost = Get-VMHost
-$vmName = "Ubuntu-5"
-
-write-host "Imprting vm $vmName"
-
-$OvfPath = "/home/ubnutu.ovf"
-
-Import-vApp -Source $OvfPath -VMHost $vmHost -Name $vmName
-Start-VM -VM $vmName
-
-if ($Result.ExitCode -eq 0)
+function healthCheck
 {
-    Get-VM (r) -Name $vmName | Select Name, @{N="IP";E={@($_.Guest.IPAddress)}}
+    $VMIP = (get-vm $Name).guest.IPAddress[0]
+    if (!$VMIP)
+    {
+        write-host "if part $res $VMIP"
+        sleep 5
+        healthCheck
+    }
+    else
+    {
+        write-host "if else part $res"
+        ping -c 2 $VMIP
+        if (!$?)
+        {
+            echo "Error"
+            exit 1
+        }
+        Write-Log "ping -c 2 $VMIP"
+        Write-Log "Health Check Pass and Details as below"
+    }
 }
+
+function commandCheck
+{
+    if (!$?)
+    {
+        echo "Error"
+        exit 1
+    }
+}
+
+function vmInfo
+{
+    write-host "$Name's Private IP is: " -NoNewline
+    write-host (get-vm $Name).guest.IPAddress[0]
+    write-host "$Name's Public IP is: " -NoNewline
+    write-host (get-vm $Name).guest.IPAddress[2]
+    write-host "$Name is " -NoNewline
+    write-host (get-vm $Name).guest.State
+}
+
+Connect-VIServer -Server $Server -User $User -Password $Password
+commandCheck
+
+$vmexist = (get-vm $Name)
+if (!$?)
+{
+    echo "VM Already Exists"
+    exit 0
+}
+else
+{
+    $OvfPath = "/Users/vijay.patel/Downloads/vmware/Ubuntu/ubuntu.ovf"
+
+    write-host "Importing vm $Name"
+
+    Import-vApp -Source $OvfPath -VMHost $Server -Name $Name
+    commandCheck
+    write-host "vm $Name imported sucessfully"
+
+    write-host "Starting $Name"
+    if (((get-vm $Name).Guest.State) -eq "Running")
+    {
+        write-Host " VM already running"
+    }
+    else
+    {
+        Start-VM -VM $Name
+        commandCheck
+        write-host "$Name VM has been Started"
+    }
+
+    healthCheck
+    vmInfo
+}
+
 
 
 
