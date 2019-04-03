@@ -1,4 +1,4 @@
-param($Server, $User, $Password, $Name)
+param($Server, $User, $Password, $Name ,$Ovfpath)
 write-host "Connecting to vsphere Server "
 
 function healthCheck
@@ -54,11 +54,10 @@ if (!$?)
 }
 else
 {
-    $OvfPath = "/Users/vijay.patel/Downloads/vmware/Ubuntu/ubuntu.ovf"
 
     write-host "Importing vm $Name"
 
-    Import-vApp -Source $OvfPath -VMHost $Server -Name $Name
+    Import-vApp -Source $Ovfpath -VMHost $Server -Name $Name
     commandCheck
     write-host "vm $Name imported sucessfully"
 
