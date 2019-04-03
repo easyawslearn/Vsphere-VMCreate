@@ -16,7 +16,7 @@ function healthCheck
         ping -c 2 $VMIP
         if (!$?)
         {
-            echo "Error"
+            echo "Error: Ping to Host"
             exit 1
         }
         Write-Log "ping -c 2 $VMIP"
@@ -28,7 +28,7 @@ function commandCheck
 {
     if (!$?)
     {
-        echo "Error"
+        echo "Error : Command executed with error"
         exit 1
     }
 }
