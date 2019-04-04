@@ -6,13 +6,13 @@ function healthCheck
     $VMIP = (get-vm $Name).guest.IPAddress[0]
     if (!$VMIP)
     {
-        write-host "if part $res $VMIP"
+        write-host " WAITNING FOR IP ASSIGNMTNY IP IS: $res $VMIP"
         sleep 5
         healthCheck
     }
     else
     {
-        write-host "if else part $res"
+        write-host "$res IP ASSIGNED TO VM"
         ping -c 2 $VMIP
         if (!$?)
         {
@@ -55,6 +55,7 @@ if (!$?)
 else
 {
 
+
     write-host "Importing vm $Name"
 
     Import-vApp -Source $Ovfpath -VMHost $Server -Name $Name
@@ -64,7 +65,7 @@ else
     write-host "Starting $Name"
     if (((get-vm $Name).Guest.State) -eq "Running")
     {
-        write-Host " VM already running"
+        write-Host "VM already running"
     }
     else
     {
