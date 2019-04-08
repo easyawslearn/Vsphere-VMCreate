@@ -1,8 +1,11 @@
 import json
 import subprocess
+import sys
+
 #from pprint import pprint
 
-with open('data.json') as f:
+input_file = sys.argv[1]
+with open (input_file) as f:
     data = json.load(f)
 
     vmware_data = data['cloud']["vmware"]
