@@ -24,7 +24,7 @@ with open('data.json') as f:
             process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
             output, error = process.communicate()
 
-            print ("output: " + output)
+            print ("Vm Creation output: " + output)
 
             if error is not None:
                 print ("error: " + error)
