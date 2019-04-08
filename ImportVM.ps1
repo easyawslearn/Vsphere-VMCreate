@@ -6,7 +6,7 @@ function healthCheck
     $VMIP = (get-vm $Name).guest.IPAddress[0]
     if (!$VMIP)
     {
-        write-host " WAITNING FOR IP ASSIGNMTNY IP IS: $res $VMIP"
+        write-host " WAITNING FOR IP ASSIGNMENT IP IS: $res $VMIP"
         sleep 5
         healthCheck
     }

@@ -1,0 +1,35 @@
+{
+  "cloud": {
+    "vmware": [
+      {
+        "vsphereip": "10.200.32.127",
+        "vsphereuser": "root",
+        "vspherepassword":"admin@123",
+        "vm": [
+          {
+            "vmname": "test",
+            "ovfpath" : "/Users/vijay.patel/Downloads/vmware/VYOS/VYOS.ovf"
+          },
+          {
+            "vmname": "test1",
+            "ovfpath" : "/Users/vijay.patel/Downloads/vmware/VYOS/VYOS.ovf"
+          }
+        ]
+      }
+    ],
+    "aws": [
+      {
+        "vsphereip": "10.200.32.127",
+        "vsphereuser": "root",
+        "vspherepassword": "admin@123",
+        "vm": [
+          {
+            "vmname": "test",
+            "ovfpath": "test.ovf"
+          }
+        ]
+      }
+    ]
+
+  }
+}
