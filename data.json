@@ -7,7 +7,7 @@
         "vspherepassword":"admin@123",
         "vm": [
           {
-            "vmname": "test",
+            "vmname": "vyos2",
             "ovfpath" : "/Users/vijay.patel/Downloads/vmware/VYOS/VYOS.ovf"
           },
           {
@@ -24,7 +24,7 @@
         "vspherepassword": "admin@123",
         "vm": [
           {
-            "vmname": "test",
+            "vmname": "vyos3",
             "ovfpath": "test.ovf"
           }
         ]

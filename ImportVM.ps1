@@ -33,6 +33,20 @@ function commandCheck
     }
 }
 
+function VMInfotoJson  {
+
+    $json_file_name = "$Name.json"
+    echo '{' > $json_file_name
+    $PrivateIP = (get-vm $Name).guest.IPAddress[0]
+    $PublicIP= (get-vm $Name).guest.IPAddress[2]
+    echo "`"VMName`" : `"$Name`" ," >> $json_file_name
+    echo "`"PrivateIp`" : `"$PrivateIP`" ," >> $json_file_name
+    echo "`"PublicIP`"  : `"$PublicIP`"">> $json_file_name
+    echo '}' >> $json_file_name
+}
+
+
+
 function vmInfo
 {
     write-host "$Name's Private IP is: " -NoNewline
@@ -41,6 +55,10 @@ function vmInfo
     write-host (get-vm $Name).guest.IPAddress[2]
     write-host "$Name is " -NoNewline
     write-host (get-vm $Name).guest.State
+    echo "VMName=$Name" >> $Name.output
+    echo "PrivateIp=(get-vm $Name).guest.IPAddress[0]" >> $Name.output
+    echo "PublicIP=(get-vm $Name).guest.IPAddress[2]" >> $Name.output
+
 }
 
 Connect-VIServer -Server $Server -User $User -Password $Password
@@ -76,6 +94,7 @@ else
 
     healthCheck
     vmInfo
+    VMInfotoJson
 }
 
 
